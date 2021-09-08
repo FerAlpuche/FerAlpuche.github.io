@@ -1,0 +1,108 @@
+<html>
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    </head>
+    <title>Examen Diagnostico</title>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Email</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+          </tr>
+        </thead>
+        <tbody id="datosTabla">
+        </tbody>
+      </table>
+      <br>
+      <div>
+        <form>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Email</label>
+              <input type="email" class="form-control" id="email" >
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputFirstName" class="form-label">First Name</label>
+              <input type="text" class="form-control" id="firstName">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputLastName" class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="lastName">
+              </div>
+            <button type="submit" class="btn btn-primary" onclick="registrar(); return false;">Registrar</button>
+          </form>
+      </div>
+    </body>
+</html>
+<script>
+    //Consultar
+    fetch('https://reqres.in/api/users?page=2')
+    .then(respuesta => respuesta.json())
+    .then(resJson => {
+        let datos = document.getElementById('datosTabla')
+        resJson.data.forEach(element => {
+            console.log(element);
+
+            let tr = document.createElement('tr');
+            let tdEmail = document.createElement('td');
+            let tdFirst = document.createElement('td');
+            let tdLast = document.createElement('td');
+
+            tdEmail.textContent = element.email;
+            tdFirst.textContent = element.first_name;
+            tdLast.textContent = element.last_name;
+
+            tr.append(tdEmail);
+            tr.append(tdFirst);
+            tr.append(tdLast);
+
+            datos.append(tr);
+        });
+    });
+
+    //Registro
+
+
+    function registrar(){
+    let email = document.getElementById("email").value;
+    let firstName = document.getElementById("firstName").value;
+    let lastName = document.getElementById('lastName').value;
+        /*fetch('https://reqres.in/api/users', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({email: email, first_name: firstName, last_name: lastName})
+        })
+        .then(respuesta => respuesta.json())
+        .then(respJson => {
+            console.log(respJson);
+        });*/
+
+        var newPerson = new Object();
+        newPerson.email = email;
+        newPerson.firstName = firstName;
+        newPerson.lastName = lastName;
+
+        var jsonTexto = JSON.stringify(newPerson);
+
+        let datosNuevos = document.getElementById('datosTabla')
+
+        let trNuevo = document.createElement('tr');
+        let tdEmailNuevo = document.createElement('td');
+        let tdFirstNuevo = document.createElement('td');
+        let tdLastNuevo = document.createElement('td');
+
+        tdEmailNuevo.textContent = email;
+        tdFirstNuevo.textContent = firstName;
+        tdLastNuevo.textContent = lastName;
+        console.log(jsonTexto)
+
+        trNuevo.append(tdEmailNuevo);
+        trNuevo.append(tdFirstNuevo);
+        trNuevo.append(tdLastNuevo);
+
+        datosNuevos.append(trNuevo);
+    }
+
+</script>
